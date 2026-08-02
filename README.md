@@ -27,16 +27,18 @@ Run the commands from your Frappe Bench directory, not from inside the app folde
 Because the path contains spaces, wrap it in quotes:
 
 ```bash
-bench get-app frappe_theme_studio "/Users/yahya/Documents/ERPnext Theme Studio"
+bench get-app --skip-assets frappe_theme_studio "/Users/yahya/Documents/ERPnext Theme Studio"
 ```
 
 If you prefer installing from GitHub instead:
 
 ```bash
-bench get-app https://github.com/yahyaoudra/frappe_theme_studio.git
+bench get-app --skip-assets https://github.com/yahyaoudra/frappe_theme_studio.git
 ```
 
 The GitHub repository name matches the Frappe app/module name, so Bench should clone it into `apps/frappe_theme_studio` and build it as `frappe_theme_studio`.
+
+`--skip-assets` is intentional. Theme Studio does not use bundled `.bundle.js` or `.bundle.css` assets, and some Bench/Frappe versions try to build a newly fetched app before it is registered in `sites/apps.txt`, which can fail even when the app source is valid.
 
 ### 2. Install on your site
 
@@ -51,6 +53,7 @@ bench --site your-site-name install-app frappe_theme_studio
 ```bash
 bench --site your-site-name migrate
 bench --site your-site-name clear-cache
+bench build
 bench restart
 ```
 
@@ -77,6 +80,7 @@ cd /path/to/frappe-bench
 ln -s "/Users/yahya/Documents/ERPnext Theme Studio" apps/frappe_theme_studio
 bench --site your-site-name install-app frappe_theme_studio
 bench --site your-site-name migrate
+bench build
 bench restart
 ```
 
@@ -93,30 +97,25 @@ bench restart
 
 ## Troubleshooting
 
-### `bench build --app frappe-theme-studio` fails with `paths[0]`
+### `bench build --app frappe_theme_studio` fails with `paths[0]`
 
-Pull the latest version of this app and retry the build:
+Fetch the app with `--skip-assets`, install it on a site, then run a normal bench build:
 
 ```bash
-cd /path/to/frappe-bench/apps/frappe_theme_studio
-git pull
 cd /path/to/frappe-bench
-bench build --app frappe_theme_studio
+bench get-app --skip-assets https://github.com/yahyaoudra/frappe_theme_studio.git
+bench --site your-site-name install-app frappe_theme_studio
+bench --site your-site-name migrate
+bench build
 ```
 
-This error can happen when Frappe's asset builder receives a dynamic API route where it expects a static asset path. Theme Studio now loads generated theme CSS through a small runtime asset instead.
-
-It can also happen if the app was fetched from the old hyphenated repository URL:
+If you already have a broken clone from a failed `bench get-app`, move it away first:
 
 ```bash
-bench get-app https://github.com/yahyaoudra/frappe-theme-studio.git
+mv apps/frappe_theme_studio archived/apps/frappe_theme_studio-broken
 ```
 
-Use this command instead:
-
-```bash
-bench get-app https://github.com/yahyaoudra/frappe_theme_studio.git
-```
+This error happens when Frappe's asset builder receives an app name that is not present in its app list yet, so `get_public_path(app)` returns `undefined`. Skipping the initial asset build avoids that build-order issue.
 
 ## Uninstall
 
