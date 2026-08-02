@@ -40,6 +40,12 @@ The GitHub repository name matches the Frappe app/module name, so Bench should c
 
 `--skip-assets` is intentional. Theme Studio does not use bundled `.bundle.js` or `.bundle.css` assets, and some Bench/Frappe versions try to build a newly fetched app before it is registered in `sites/apps.txt`, which can fail even when the app source is valid.
 
+If your Bench version does not automatically register the app after `--skip-assets`, add it to `sites/apps.txt`:
+
+```bash
+grep -qxF frappe_theme_studio sites/apps.txt || echo frappe_theme_studio >> sites/apps.txt
+```
+
 ### 2. Install on your site
 
 Replace `your-site-name` with your actual site name:
@@ -104,6 +110,7 @@ Fetch the app with `--skip-assets`, install it on a site, then run a normal benc
 ```bash
 cd /path/to/frappe-bench
 bench get-app --skip-assets https://github.com/yahyaoudra/frappe_theme_studio.git
+grep -qxF frappe_theme_studio sites/apps.txt || echo frappe_theme_studio >> sites/apps.txt
 bench --site your-site-name install-app frappe_theme_studio
 bench --site your-site-name migrate
 bench build
