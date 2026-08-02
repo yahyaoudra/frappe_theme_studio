@@ -7,8 +7,8 @@ app_license = "MIT"
 
 required_apps = ["frappe"]
 
-app_include_css = [
-    "/api/method/frappe_theme_studio.api.get_active_theme_css",
+app_include_js = [
+    "/assets/frappe_theme_studio/js/theme_runtime.js",
 ]
 
 doctype_js = {}

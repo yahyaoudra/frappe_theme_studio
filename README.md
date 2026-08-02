@@ -89,6 +89,21 @@ bench build --app frappe_theme_studio
 bench restart
 ```
 
+## Troubleshooting
+
+### `bench build --app frappe-theme-studio` fails with `paths[0]`
+
+Pull the latest version of this app and retry the build:
+
+```bash
+cd /path/to/frappe-bench/apps/frappe-theme-studio
+git pull
+cd /path/to/frappe-bench
+bench build --app frappe-theme-studio
+```
+
+This error can happen when Frappe's asset builder receives a dynamic API route where it expects a static asset path. Theme Studio now loads generated theme CSS through a small runtime asset instead.
+
 ## Uninstall
 
 ```bash

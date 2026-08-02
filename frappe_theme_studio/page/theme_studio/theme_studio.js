@@ -524,7 +524,8 @@ class ThemeStudio {
   }
 
   refreshThemeCss() {
-    const link = document.querySelector('link[href*="frappe_theme_studio.api.get_active_theme_css"]');
-    if (link) link.href = link.href.split("?")[0] + "?v=" + Date.now();
+    if (window.frappe_theme_studio_refresh) {
+      window.frappe_theme_studio_refresh();
+    }
   }
 }
