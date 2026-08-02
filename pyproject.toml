@@ -1,5 +1,5 @@
 [project]
-name = "frappe-theme-studio"
+name = "frappe_theme_studio"
 version = "0.1.0"
 description = "Lightweight visual theme customizer for Frappe Desk and ERPNext."
 authors = [{ name = "Frappe Theme Studio" }]
