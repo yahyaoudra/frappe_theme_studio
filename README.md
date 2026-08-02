@@ -27,14 +27,16 @@ Run the commands from your Frappe Bench directory, not from inside the app folde
 Because the path contains spaces, wrap it in quotes:
 
 ```bash
-bench get-app "/Users/yahya/Documents/ERPnext Theme Studio"
+bench get-app frappe_theme_studio "/Users/yahya/Documents/ERPnext Theme Studio"
 ```
 
 If you prefer installing from GitHub instead:
 
 ```bash
-bench get-app https://github.com/yahyaoudra/frappe-theme-studio.git
+bench get-app frappe_theme_studio https://github.com/yahyaoudra/frappe-theme-studio.git
 ```
+
+Do not omit `frappe_theme_studio` from the command. The GitHub repository uses a hyphen in its URL, but the Frappe app/module name uses underscores. Passing the app name explicitly prevents Bench from running the asset build as `frappe-theme-studio`.
 
 ### 2. Install on your site
 
@@ -96,13 +98,25 @@ bench restart
 Pull the latest version of this app and retry the build:
 
 ```bash
-cd /path/to/frappe-bench/apps/frappe-theme-studio
+cd /path/to/frappe-bench/apps/frappe_theme_studio
 git pull
 cd /path/to/frappe-bench
-bench build --app frappe-theme-studio
+bench build --app frappe_theme_studio
 ```
 
 This error can happen when Frappe's asset builder receives a dynamic API route where it expects a static asset path. Theme Studio now loads generated theme CSS through a small runtime asset instead.
+
+It can also happen if the app was fetched without the explicit app name:
+
+```bash
+bench get-app https://github.com/yahyaoudra/frappe-theme-studio.git
+```
+
+Use this command instead:
+
+```bash
+bench get-app frappe_theme_studio https://github.com/yahyaoudra/frappe-theme-studio.git
+```
 
 ## Uninstall
 
