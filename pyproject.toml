@@ -1,0 +1,22 @@
+[project]
+name = "frappe-theme-studio"
+version = "0.1.0"
+description = "Lightweight visual theme customizer for Frappe Desk and ERPNext."
+authors = [{ name = "Frappe Theme Studio" }]
+requires-python = ">=3.10"
+dependencies = []
+readme = "README.md"
+license = { text = "MIT" }
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.bench.dev-dependencies]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["frappe_theme_studio*"]
+
+[tool.setuptools]
+include-package-data = true

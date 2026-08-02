@@ -1,0 +1,4 @@
+recursive-include frappe_theme_studio *.py *.json *.js *.css *.html *.md
+include README.md
+include pyproject.toml
+include setup.py
